@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&family=Roboto:wght@400;500;700;900&display=swap&family=Passion+One&family=Anton');
+
+* {
+   box-sizing: border-box;
+   font-size: 10px;
+}
+
+html,
+body {
+   margin: 0;
+   height: 100%;
+   max-width: 100%;
+   overflow-x: hidden;
+}
+
+.header-text {
+   font: 4em 'Passion One', cursive;
+   color: $darkgrey;
+   position: absolute;
+   margin: 0px;
+   top: 20px;
+   left: 30px;
+
+   span {
+      font-size: 1em;
+   }
+}
+
+.colored-text {
+   color: $purple;
+}
