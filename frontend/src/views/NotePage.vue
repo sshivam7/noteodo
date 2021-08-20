@@ -1,31 +1,32 @@
 <template>
-   <div class="overview">
+   <div class="page">
       <side-nav />
       <h2 class="alt-header-text">
-         Noteodo:<span class="colored-text">{{ title }}</span>
+         Noteodo:<span class="colored-text">Pages</span>
       </h2>
-      <div class="overview-container">
+      <div class="page-container">
+         <input type="text" class="title-text" v-model="page.title" />
          <ckeditor
+            class="pageck"
             :editor="editor"
             v-model="editorData"
             :config="editorConfig"
          ></ckeditor>
-         <button class="save-btn" v-on:click="saveNote()">Save</button>
+         <button class="save-btn" v-on:click="savePage()">Save</button>
       </div>
-      <div class="main-panel"></div>
+      <page-footer />
    </div>
-   <page-footer />
 </template>
 
 <script>
-import Axios from 'axios';
 import InlineEditor from '@ckeditor/ckeditor5-build-inline';
+import Axios from 'axios';
 
 import SideNav from '../components/SideNav.vue';
 import PageFooter from '../components/PageFooter.vue';
 
 export default {
-   name: 'Overview',
+   name: 'Page',
    components: { SideNav, PageFooter },
    data() {
       return {
@@ -73,18 +74,18 @@ export default {
                ]
             }
          },
-         title: '',
-         notes: '',
-         overviewList: ''
+         page: ''
       };
    },
    methods: {
-      saveNote: async function () {
+      savePage: async function () {
          let token = localStorage.getItem('auth-token');
          Axios.put(
-            'http://localhost:3000/overview/update',
+            'http://localhost:3000/pages/update',
             {
-               notes: this.editorData
+               notes: this.editorData,
+               title: this.page.title,
+               idval: this.$route.params.id
             },
             {
                headers: { Authorization: token }
@@ -94,41 +95,61 @@ export default {
    },
    beforeMount: async function () {
       let token = localStorage.getItem('auth-token');
-      const overviewPageData = await Axios.get(
-         'http://localhost:3000/overview/get',
+      const curPage = await Axios.get(
+         `http://localhost:3000/pages/${this.$route.params.id}`,
          {
             headers: { Authorization: token }
          }
       );
-      this.title = overviewPageData.data.rows[0].title;
-      this.editorData = overviewPageData.data.rows[0].notes;
-
-      const todoList = await Axios.get(
-         `http://localhost:3000/todolist/${overviewPageData.data.rows[0].todolist_id}`,
-         {
-            headers: { Authorization: token }
+      this.page = curPage.data.rows[0];
+      this.editorData = curPage.data.rows[0].notes;
+   },
+   watch: {
+      async $route(to, from) {
+         if (this.$route.params.id) {
+            console.log(`to: ${to} from: ${from}`);
+            let token = localStorage.getItem('auth-token');
+            const curPage = await Axios.get(
+               `http://localhost:3000/pages/${this.$route.params.id}`,
+               {
+                  headers: { Authorization: token }
+               }
+            );
+            this.page = curPage.data.rows[0];
+            this.editorData = curPage.data.rows[0].notes;
          }
-      );
-      //TODO ck editor
-      this.overviewList = todoList;
+      }
    }
 };
 </script>
 
 <style lang="scss">
-.overview {
+.page {
    height: 100%;
    display: flex;
    flex-direction: row;
 }
 
-.overview-container {
+.page-container {
    margin: 30px 20px;
+
+   .title-text {
+      border: 2px solid $lightgrey;
+      width: 78vw;
+      height: 50px;
+      border-radius: 10px;
+      font: $headline4;
+      padding-left: 10px;
+
+      &:hover {
+         border: 2px solid $purple;
+      }
+   }
 
    .save-btn {
       position: relative;
       bottom: 7vh;
-      left: 19vw;
+      left: 35vw;
    }
 
    p {
@@ -176,9 +197,9 @@ export default {
    }
 }
 
-.ck-editor__editable {
-   width: 46vw;
-   height: 88vh;
+.pageck.ck-editor__editable {
+   width: 78vw;
+   height: 70vh;
    padding: 5px;
 }
 

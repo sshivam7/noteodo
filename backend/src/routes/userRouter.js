@@ -1,6 +1,4 @@
 import express from 'express';
-import passport from 'passport';
-
 import { registerUser, loginUser, isValidToken } from '../controllers/userControllers';
 
 // eslint-disable-next-line new-cap

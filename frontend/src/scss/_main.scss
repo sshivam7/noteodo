@@ -26,6 +26,14 @@ body {
    }
 }
 
+.alt-header-text {
+   @extend .header-text;
+   top: auto;
+   left: auto;
+   bottom: 30px;
+   right: 20px;
+}
+
 .colored-text {
    color: $purple;
 }

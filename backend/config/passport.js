@@ -15,7 +15,7 @@ module.exports = (passport) => {
          new Strategy(opts, async (payload, done) => {
             const user = await pool.query(`SELECT * FROM users WHERE user_id = '${payload.id}'`);
             if (user.rowCount > 0) {
-               return done(null, user.row[0]);
+               return done(null, user.rows[0]);
             }
             return done(null, false);
          })

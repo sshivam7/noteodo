@@ -4,6 +4,9 @@ import Home from '../views/Home.vue';
 import Login from '../views/auth/Login.vue';
 import Register from '../views/auth/Register.vue';
 import Overview from '../views/Overview.vue';
+import Settings from '../views/Settings.vue';
+import NotePage from '../views/NotePage.vue';
+import CreatePage from '../views/CreatePage.vue';
 
 const routes = [
    {
@@ -41,6 +44,30 @@ const routes = [
       component: Overview,
       meta: {
          title: 'Noteodo - Overview'
+      }
+   },
+   {
+      path: '/settings',
+      name: 'Settings',
+      component: Settings,
+      meta: {
+         title: 'Noteodo - Settings'
+      }
+   },
+   {
+      path: '/page/:id',
+      name: "Page",
+      component: NotePage,
+      meta: {
+         title: 'Notes'
+      }
+   },
+   {
+      path: '/createPage',
+      name: "CreatePage",
+      component: CreatePage, 
+      meta: {
+         title: 'Noteodo - Create Page'
       }
    }
 ];

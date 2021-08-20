@@ -169,6 +169,7 @@ export default {
 
             // Get and store user info from JWT payload
             const payload = jwtDecode(loginResponse.data.token);
+            console.log(payload);
             this.$store.commit('updateUser', payload);
 
             // Store user token

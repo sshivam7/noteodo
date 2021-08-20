@@ -33,7 +33,7 @@
 
          <div class="btn-container">
             <button @click="$router.go(-1)" type="button">Back</button>
-            <button class="colored-btn" v-on:click="submitForm" type="submit">
+            <button class="colored-btn" v-on:click="submitForm()" type="submit">
                Login
             </button>
          </div>

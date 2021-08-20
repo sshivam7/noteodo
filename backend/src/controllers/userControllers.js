@@ -7,7 +7,6 @@ import validateRegistration from '../validation/register';
 import validateLogin from '../validation/login';
 
 const saltRounds = 10;
-//TODO modify for animal added & fix tests
 // Register a new user
 export const registerUser = async (request, response) => {
    try {
@@ -48,6 +47,19 @@ export const registerUser = async (request, response) => {
          `INSERT INTO users (username, password, email, animal) VALUES('${username}', '${hash}', '${email}', '${animal}') RETURNING *`
       );
 
+      // Create overview page for user
+      // Create new todo list to go with overview page
+      const newTodoList = await pool.query(
+         `INSERT INTO todolist (title, tag) VALUES('TODO', 'OVERVIEW') RETURNING *`
+      );
+
+      const todolist_id = newTodoList.rows[0].todolist_id;
+
+      // Create the new overview page
+      const newOverviewPage = await pool.query(
+         `INSERT INTO overview (title, notes, todolist_id, user_id) VALUES ('Overview', '', '${todolist_id}', '${newUser.rows[0].user_id}') RETURNING *`
+      );
+
       response.json(newUser);
    } catch (error) {
       response.status(500).json({ error });
@@ -78,6 +90,7 @@ export const loginUser = async (request, response) => {
       if (passwordMatch) {
          const payload = {
             id: user.rows[0].user_id,
+            animal: user.rows[0].animal,
             username: user.rows[0].username,
          };
 
