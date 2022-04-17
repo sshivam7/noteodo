@@ -2,7 +2,7 @@
 
 Noteodo is a note taking and to-do list application designed to help individuals organize their tasks and notes in one convenient space. The site uses Vue.js for the frontend as well as Node.js and Express for the backend. 
 
-Please note that the project is currently a work in progress and as such is still missing some functionality. 
+**Note**: This project is currently a work in progress and, as a result, is still missing some functionality. 
 
 ### Features 
 - Passwords are hashed using bcrypt and stored, alongside other data, in a postgres database 
@@ -19,8 +19,7 @@ Please note that the project is currently a work in progress and as such is stil
 ![page](screenshots/page.png)
 
 ### Things to add
-- Implement the to-do list frontend (backend implementation complete)
-- Create a desktop application 
+- Finish Todo list implementation
 - Publish site 
 
 ### Author
